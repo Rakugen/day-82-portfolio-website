@@ -53,6 +53,19 @@ def home():
 def about():
     return render_template("about.html")
 
+@app.route('/contact')
+def about():
+    return render_template("contact.html")
+
+@app.route('/portfolio')
+def portfolio():
+    return render_template("portfolio.html")
+
+@app.route('/project/<int:project_id>')
+def about():
+    return render_template("project.html")
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
