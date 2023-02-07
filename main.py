@@ -36,12 +36,27 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///projects.db'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 Bootstrap(app)
 db = SQLAlchemy(app)
 
+# DB Table Creation
+# Project table that will hold individual projects with name, short description and thumbnail img for preview,
+# comma-separated tags, comma-separated imgs_url, and html formated body
+class Project(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(250), unique=True, nullable=False)
+    description = db.Column(db.String(250), unique=False, nullable=False)
+    thumbnail_url = db.Column(db.String(250), unique=False)
+    tags = db.Column(db.String(250), unique=False, nullable=True)
+    imgs_url = db.Column(db.String(250), unique=False)
+    body = db.Column(db.Text, unique=False)
+
+
+with app.app_context():
+    db.create_all()
 
 
 
@@ -54,7 +69,7 @@ def about():
     return render_template("about.html")
 
 @app.route('/contact')
-def about():
+def contact():
     return render_template("contact.html")
 
 @app.route('/portfolio')
@@ -62,7 +77,7 @@ def portfolio():
     return render_template("portfolio.html")
 
 @app.route('/project/<int:project_id>')
-def about():
+def get_project():
     return render_template("project.html")
 
 
